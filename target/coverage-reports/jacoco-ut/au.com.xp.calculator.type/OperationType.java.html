@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>OperationType.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Calculator</a> &gt; <a href="index.source.html" class="el_package">au.com.xp.calculator.type</a> &gt; <span class="el_source">OperationType.java</span></div><h1>OperationType.java</h1><pre class="source lang-java linenums">package au.com.xp.calculator.type;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import au.com.xp.calculator.exception.InValidOperationException;
+import au.com.xp.calculator.operation.Addition;
+import au.com.xp.calculator.operation.Cosine;
+import au.com.xp.calculator.operation.Division;
+import au.com.xp.calculator.operation.Log;
+import au.com.xp.calculator.operation.Multiplication;
+import au.com.xp.calculator.operation.Power;
+import au.com.xp.calculator.operation.Sine;
+import au.com.xp.calculator.operation.Squareroot;
+import au.com.xp.calculator.operation.Subtraction;
+import au.com.xp.calculator.operation.Tangent;
+import au.com.xp.calculator.operation.base.Operation;
+
+<span class="pc" id="L19">public enum OperationType {</span>
+	// TODO : Use a DI framework like Spring / CDI if needed.
+<span class="fc" id="L21">	ADDITION(&quot;+&quot;, 2, new Addition()),</span>
+<span class="fc" id="L22">	SUBTRACTION(&quot;-&quot;, 2, new Subtraction()),</span>
+<span class="fc" id="L23">	MULTIPLICATION(&quot;*&quot;, 2, new Multiplication()),</span>
+<span class="fc" id="L24">	DIVISION(&quot;/&quot;, 2, new Division()),</span>
+<span class="fc" id="L25">	SQUAREROOT(&quot;SQRT&quot;, 1, new Squareroot()),</span>
+<span class="fc" id="L26">	POWER(&quot;POW&quot;, 1, new Power()),</span>
+<span class="fc" id="L27">	COS(&quot;COS&quot;, 1, new Cosine()),</span>
+<span class="fc" id="L28">	SIN(&quot;SIN&quot;, 1, new Sine()),</span>
+<span class="fc" id="L29">	TAN(&quot;TAN&quot;, 2, new Tangent()),</span>
+<span class="fc" id="L30">	LOG(&quot;LOG&quot;, 3, new Log());</span>
+
+	private String symbol;
+	private int numberOfOperands;
+	private Operation operation;
+
+	// Reverse-lookup map for getting a day from an abbreviation
+<span class="fc" id="L37">	private static final Map&lt;String, OperationType&gt; lookup = new HashMap&lt;String, OperationType&gt;();</span>
+
+	static {
+<span class="fc bfc" id="L40" title="All 2 branches covered.">		for (OperationType d : OperationType.values()) {</span>
+<span class="fc" id="L41">			lookup.put(d.getSymbol(), d);</span>
+		}
+<span class="fc" id="L43">	}</span>
+
+<span class="fc" id="L45">	OperationType(String symbol, int numberOfOperands, Operation operation) {</span>
+<span class="fc" id="L46">		this.symbol = symbol;</span>
+<span class="fc" id="L47">		this.numberOfOperands = numberOfOperands;</span>
+<span class="fc" id="L48">		this.operation = operation;</span>
+<span class="fc" id="L49">	}</span>
+
+	public String getSymbol() {
+<span class="fc" id="L52">		return symbol;</span>
+	}
+
+	public int getNumberOfOperands() {
+<span class="fc" id="L56">		return numberOfOperands;</span>
+	}
+
+	public static OperationType getOperationType(String abbreviation) throws InValidOperationException {
+<span class="fc" id="L60">		OperationType operationType = lookup.get(abbreviation);</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">		if (operationType == null) {</span>
+<span class="fc" id="L62">			throw new InValidOperationException(String.format(&quot;Operation not valid %s&quot;, abbreviation));</span>
+		}
+<span class="fc" id="L64">		return operationType;</span>
+	}
+
+	public Operation getOperation() {
+<span class="fc" id="L68">		return operation;</span>
+	}
+
+	public static boolean contains(String abbreviation) {
+<span class="nc" id="L72">		return lookup.containsValue(abbreviation);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
